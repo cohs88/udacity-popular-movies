@@ -1,6 +1,7 @@
 package Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Model.IMovieRepository;
@@ -16,15 +17,17 @@ public class MovieStubRepository implements IMovieRepository {
         Movie movie = new Movie();
 
         movie.setId(2541);
-        movie.setOriginalTitle("M1");
+        movie.setOriginalTitle("Interstellar");
         movies.add(movie);
 
+        movie = new Movie();
         movie.setId(854);
-        movie.setOriginalTitle("M2");
+        movie.setOriginalTitle("Jurassic Park");
         movies.add(movie);
 
+        movie = new Movie();
         movie.setId(987);
-        movie.setOriginalTitle("M3");
+        movie.setOriginalTitle("Back to the future");
         movies.add(movie);
 
         return movies;

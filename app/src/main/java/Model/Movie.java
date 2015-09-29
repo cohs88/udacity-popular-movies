@@ -1,5 +1,8 @@
 package Model;
 
+
+import com.example.popularmoviesudacity.R;
+
 import java.util.Date;
 
 /**
@@ -11,6 +14,18 @@ public class Movie {
     private Date releaseDate;
     private String overview;
     private boolean hasVideo;
+    private String posterPath;
+
+    public Integer getTestPicasso()
+    {
+        return R.drawable.sample_0;
+    }
+
+    public String getFullPosterPath()
+    {
+        return "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg";
+        //return "http://i.imgur.com/DvpvklR.png";
+    }
 
     public int getId()
     {
@@ -56,5 +71,13 @@ public class Movie {
 
     public void setHasVideo(boolean hasVideo) {
         this.hasVideo = hasVideo;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 }
