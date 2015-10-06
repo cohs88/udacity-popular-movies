@@ -3,6 +3,8 @@ package Model;
 
 import com.example.popularmoviesudacity.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,6 +17,36 @@ public class Movie {
     private String overview;
     private boolean hasVideo;
     private String posterPath;
+    private double voteAverage;
+    private Integer imageResource;
+
+    public void setImageResource(Integer imageResource)
+    {
+        this.imageResource = imageResource;
+    }
+
+    public Integer getImageResource()
+    {
+        return this.imageResource;
+    }
+
+    public Date convertStringToDate(String stringDate)
+    {
+        DateFormat format;
+        Date date = new Date();
+
+        format = new SimpleDateFormat("yy-MM-dd");
+
+        try{
+            date = format.parse(stringDate);
+        }
+        catch (Exception e)
+        {
+            // oops!
+        }
+
+        return date;
+    }
 
     public Integer getTestPicasso()
     {
@@ -79,5 +111,13 @@ public class Movie {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }

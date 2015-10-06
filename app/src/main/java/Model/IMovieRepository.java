@@ -8,4 +8,5 @@ import java.util.List;
  */
 public interface IMovieRepository {
     List<Movie> GetMostPopular();
+    List<Movie> GetDiscoverMovies(String sortBy);
 }

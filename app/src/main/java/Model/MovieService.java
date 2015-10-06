@@ -13,8 +13,8 @@ public class MovieService {
         _movieRepository = movieRepository;
     }
 
-    public List<Movie> GetPopular()
+    public List<Movie> GetPopular(String sortBy)
     {
-        return _movieRepository.GetMostPopular();
+        return _movieRepository.GetDiscoverMovies(sortBy);
     }
 }

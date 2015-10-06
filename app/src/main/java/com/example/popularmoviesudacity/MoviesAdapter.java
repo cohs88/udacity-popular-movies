@@ -25,11 +25,11 @@ public class MoviesAdapter extends BaseAdapter {
     private MovieService _moviesService;
     private List<Movie> _movies;
 
-    public MoviesAdapter(Context context, IMovieRepository movieRepository)
+    public MoviesAdapter(Context context, IMovieRepository movieRepository, String sortBy)
     {
         mContext = context;
         _moviesService = new MovieService(movieRepository);
-        _movies = _moviesService.GetPopular();
+        _movies = _moviesService.GetPopular(sortBy);
     }
 
     @Override
@@ -49,31 +49,32 @@ public class MoviesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        /*
         ImageView imageView;
         if (convertView == null)
         {
             imageView = new ImageView(mContext);
-            //imageView.setLayoutParams(new GridView.LayoutParams(85,85));
+            imageView.setLayoutParams(new GridView.LayoutParams(85,85));
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             //imageView.setPadding(8, 8, 8, 8);
         }
         else {
             imageView = (ImageView)convertView;
         }
+        */
 
 
-        /*
-        SquaredImageView view = (SquaredImageView) convertView;
+
+        SquaredImageView imageView = (SquaredImageView) convertView;
         if (convertView == null) {
-            view = new SquaredImageView(mContext);
-            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView = new SquaredImageView(mContext);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
         else
         {
-            view = (SquaredImageView)convertView;
+            imageView = (SquaredImageView)convertView;
         }
-        */
+
 
         /*
         Picasso.with(mContext)
@@ -82,14 +83,20 @@ public class MoviesAdapter extends BaseAdapter {
                 .into(imageView);
         */
         //imageView.setImageResource(_movies.get(position).getTestPicasso());
-        imageView.setImageResource(mImages[position]);
+        //imageView.setImageResource(mImages[position]);
+        imageView.setImageResource(_movies.get(position).getImageResource());
 
         return imageView;
     }
 
-    private Integer[] mImages = {
+    public Integer[] mImages = {
             R.drawable.sample_0,
             R.drawable.sample_1,
-            R.drawable.sample_2
+            R.drawable.sample_2,
+            R.drawable.sample_3,
+            R.drawable.sample_4,
+            R.drawable.sample_5,
+            R.drawable.sample_6,
+            R.drawable.sample_7
     };
 }

@@ -2,6 +2,8 @@ package com.example.popularmoviesudacity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import Model.Movie;
@@ -24,7 +27,28 @@ import Repository.MovieStubRepository;
 public class MainActivityFragment extends Fragment {
 
     private Context mContext;
+    private View theRootView;
+    GridView mGridView;
+
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String sortBySetting = sharedPreferences.getString(
+                getString(R.string.pref_movies_sort_key),
+                getString(R.string.pref_movies_sort_default)
+        );
+
+
+        mGridView.setAdapter(new MoviesAdapter(mContext, new MovieStubRepository(), sortBySetting));
+        synchronized (mGridView)
+        {
+            mGridView.notifyAll();
+        }
     }
 
     @Override
@@ -33,7 +57,6 @@ public class MainActivityFragment extends Fragment {
 
         setHasOptionsMenu(true);
         mContext = getActivity().getApplicationContext();
-
     }
 
     @Override
@@ -44,22 +67,29 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = theRootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        GridView gridView = (GridView)view.findViewById(R.id.gridview);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String sortBySetting = sharedPreferences.getString(
+                getString(R.string.pref_movies_sort_key),
+                getString(R.string.pref_movies_sort_default)
+        );
 
-        gridView.setAdapter(new MoviesAdapter(mContext, new MovieStubRepository()));
+        //GridView gridView = (GridView)view.findViewById(R.id.gridview);
+        mGridView = (GridView)view.findViewById(R.id.gridview);
 
+        //listAdapter = new MoviesAdapter(mContext, new MovieStubRepository(), sortBySetting);
+        //gridView.setAdapter(listAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setAdapter(new MoviesAdapter(mContext, new MovieStubRepository(), sortBySetting));
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Movie movie =  (Movie)adapterView.getItemAtPosition(position);
+                Movie movie = (Movie) adapterView.getItemAtPosition(position);
 
                 Intent intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra(Intent.EXTRA_TEXT, position);
-
-                Toast.makeText(mContext, "" + position + " " + movie.getOriginalTitle(), Toast.LENGTH_SHORT).show();
 
                 startActivity(intent);
             }
